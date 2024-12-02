@@ -1,4 +1,4 @@
-name: CI Workflow
+name: CI/CD Workflow
 
 on:
   push:
@@ -6,26 +6,32 @@ on:
       - main
 
 jobs:
-  exemple-job:
-    runs-on: ubuntu-latest
-    
-
   build:
+    name: Build and Deploy
     runs-on: ubuntu-latest
-    container:
-      image: node:16-alpine
+
     steps:
-      - name: Checkout code
+      # Étape 1 : Vérification du code source
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      # Étape 2 : Configuration de Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Étape 3 : Installation des dépendances
+      - name: Install Dependencies
         run: npm install
 
-      - name: Build app
+      # Étape 4 : Build du projet
+      - name: Build Project
         run: npm run build
 
-      - name : Deploy to Github Page
-        uses : peaceiris/actions-gh-pages@v3
+      # Étape 5 : Déploiement sur GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          publish_dir: ./build
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # Remplacez par le dossier généré après le build
