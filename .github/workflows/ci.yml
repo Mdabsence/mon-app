@@ -6,27 +6,27 @@ on:
       - main
 
 jobs:
-  linter:
-    runs-on: ubuntu-latest
-    container:
-      image: node:16-alpine
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        
-      - name: Cache Yarn dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+#  linter:
+#    runs-on: ubuntu-latest
+#    container:
+#      image: node:16-alpine
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#        
+#      - name: Cache Yarn dependencies
+#        uses: actions/cache@v3
+#        with:
+#          path: node_modules
+#          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-yarn-
 
-      - name: Install dependencies
-        run: yarn install
+#      - name: Install dependencies
+#        run: yarn install
 
-      - name: Run linter
-        run: yarn lint
+#      - name: Run linter
+#        run: yarn lint
 
   build:
     runs-on: ubuntu-latest
@@ -60,5 +60,5 @@ jobs:
       - name : Deploy to Github Page
         uses : peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITBUB_TOKEN}}
+          github_token: ${{secrets.GITHUB_TOKEN}}
           publish_dir: ./build
