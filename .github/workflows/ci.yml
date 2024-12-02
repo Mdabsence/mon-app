@@ -27,10 +27,6 @@ jobs:
 
       - name: Run linter
         run: yarn lint
-      
-      - name: gh-pages installation
-        run: npm install gh-pages --save-dev
-
 
   build:
     runs-on: ubuntu-latest
@@ -60,3 +56,9 @@ jobs:
         with:
           name: build
           path: build/
+      
+      - name : Deploy to Github Page
+        uses : peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITBUB_TOKEN}}
+          publish_dir: ./build
